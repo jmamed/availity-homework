@@ -16,10 +16,13 @@ function App() {
   const[busAddress, setBusAddress] = useState("");
   const[phoneNumber, setPhoneNum] = useState("");
   const[emailAddress, setEmailAddress] = useState("");
+  const[lispinput, setLispChecker] = useState("");
 
   //Error Check and Validation
   const[submitted, setSubmitted] = useState(false);
   const[error, setError] = useState(false);
+  const[submitcheck, setSubmitChecker] = useState(false);
+  const[errorcheck, setErrorChecker] = useState(false);
 
   //Handle form field changes
   const handleFirstName = (e) => {
@@ -46,14 +49,17 @@ function App() {
     setEmailAddress(e.target.value);
     setSubmitted(false);
   };
+  const handleLISPChecker = (e) => {
+    setLispChecker(e.target.value);
+    setSubmitted(false);
+  };
 
   const handleFormSubmission = (e) => {
     e.preventDefault();
     if(firstName === '' || lastName === '' || npiNumber === '' || 
     busAddress === '' || phoneNumber === '' || emailAddress === ''){
       setError(true);
-      // handleShow();
-      console.log("ERROR Please fill in all registration fields");
+      console.log("ERROR: Please fill in all registration fields");
     }
     else{
       setSubmitted(true);
@@ -84,11 +90,83 @@ function App() {
       );
     };
 
+    // LISP Solution
+
+    function LISPChecker(input){
+      console.log("text input: "+ input);
+      let array = [];
+
+      for(let i=0; i<input.length; i++){
+        let value = input[i];
+
+        if(value === '('){
+          array.push(value);
+          continue;
+        }
+
+        if (array.length === 0) return false;
+
+        switch(value){
+          case ')':
+            array.pop();
+            break;
+          default:
+            break;
+        }
+      }
+      return (array.length === 0);
+    }
+
+    const handleLISPSubmission = (e) => {
+      e.preventDefault();
+      setErrorChecker(false);
+      setSubmitChecker(false);
+      console.log(lispinput);
+      if(lispinput === ''){
+        setErrorChecker(true);
+        console.log("ERROR Please add string");
+      }
+      else{
+        setErrorChecker(false);
+        console.log("Input has value");
+        if(LISPChecker(lispinput) === true){
+          setSubmitChecker(true);
+          console.log("Success: parenthesis closed");
+        }
+        else{
+          setErrorChecker(true);
+          console.log("ERROR: parenthesis not closed");
+        }
+      }
+    };
+
+  //Show popup modal Success
+  const successChecker = () => {
+    return (
+      <div
+        style={{
+          display: submitcheck ? '' : 'none',
+        }}>
+        <Alert severity="success">LISP Paranthesis Checker success!</Alert>
+      </div>
+    );
+    };
+  
+    //Show popup modal error if error
+    const errorChecker = () => {
+      return (
+        <div style={{display: errorcheck ? '' : 'none'}}>
+          <Alert severity="warning">Warning: Parenthesis Not Closed</Alert>
+        </div>
+        
+      );
+    };
+
   return (
     <div className="App">
       <Container maxWidth="sm">
         <h2>Availity Homework Form</h2>
-        <div className="messages">
+        <div>
           {errorPopup()}
           {successPopup()}
         </div>
@@ -136,8 +214,6 @@ function App() {
             label="Telephone Number"
             helperText="Enter valid 9 digit phone number"
             variant="outlined"
-            type="tel"
-            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
             onChange={handlePhoneNumber}
           />
           <TextField
@@ -161,6 +237,12 @@ function App() {
 
       <Container maxWidth="sm">
         <h2>Paranthesis Checker</h2>
+
+        <div>
+          {errorChecker()}
+          {successChecker()}
+        </div>
+
         <Box
         component="form"
         sx={{
@@ -172,17 +254,18 @@ function App() {
         autoComplete="off">
           <TextField
             id="outlined-basic"
-            label="Parenthesis Checked"
+            label="Parenthesis Checker"
             variant="outlined"
-            helperText="Enter a String"
+            helperText="Enter a string of parenthesis"
+            onChange={handleLISPChecker}
           />
           <Button 
             variant="contained"
             color="primary"
             type="submit"
-            onClick={handleFormSubmission}
+            onClick={handleLISPSubmission}
             endIcon={<SendIcon />}>
-            Check for Correct nested
+            Check for Properly Closed Paranthesis
           </Button>
         </Box>
       </Container>
