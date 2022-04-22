@@ -176,8 +176,7 @@ function App() {
             display: 'flex',
             flexDirection: 'column',
             padding: '20px',
-            maxWidth: 'md',
-            textAlign: 'center'
+            maxWidth: 'md'
           }}
           noValidate
           autoComplete="off">
