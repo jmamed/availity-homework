@@ -16,11 +16,13 @@ function App() {
   const[busAddress, setBusAddress] = useState("");
   const[phoneNumber, setPhoneNum] = useState("");
   const[emailAddress, setEmailAddress] = useState("");
+  //LISP
   const[lispinput, setLispChecker] = useState("");
 
   //Error Check and Validation
   const[submitted, setSubmitted] = useState(false);
   const[error, setError] = useState(false);
+  //LISP
   const[submitcheck, setSubmitChecker] = useState(false);
   const[errorcheck, setErrorChecker] = useState(false);
 
@@ -49,6 +51,7 @@ function App() {
     setEmailAddress(e.target.value);
     setSubmitted(false);
   };
+  //LISP
   const handleLISPChecker = (e) => {
     setLispChecker(e.target.value);
     setSubmitted(false);
@@ -78,67 +81,64 @@ function App() {
         <Alert severity="success">User {firstName} successfully registered!!</Alert>
       </div>
     );
-    };
-  
-    //Show popup modal error if error
-    const errorPopup = () => {
-      return (
-        <div style={{display: error ? '' : 'none'}}>
-          <Alert severity="error">Please enter all mandatory fields - Try Again!</Alert>
-        </div>
-        
-      );
-    };
+  };
 
-    // LISP Solution
+  //Show popup modal error if error
+  const errorPopup = () => {
+    return (
+      <div style={{display: error ? '' : 'none'}}>
+        <Alert severity="error">Please enter all mandatory fields - Try Again!</Alert>
+      </div>
+      
+    );
+  };
 
-    function LISPChecker(input){
-      console.log("text input: "+ input);
-      let array = [];
+  // LISP Solution Q2
+  function LISPChecker(input){
+    console.log("text input: "+ input);
+    let array = [];
 
-      for(let i=0; i<input.length; i++){
-        let value = input[i];
+    for(let i=0; i<input.length; i++){
+      let value = input[i];
 
-        if(value === '('){
-          array.push(value);
-          continue;
-        }
-
-        if (array.length === 0) return false;
-
-        switch(value){
-          case ')':
-            array.pop();
-            break;
-          default:
-            break;
-        }
+      if(value === '('){
+        array.push(value);
+        continue;
       }
-      return (array.length === 0);
-    }
 
-    const handleLISPSubmission = (e) => {
-      e.preventDefault();
+      if (array.length === 0) return false;
+
+      switch(value){
+        case ')':
+          array.pop();
+          break;
+        default:
+          break;
+      }
+    }
+    return (array.length === 0);
+  }
+
+  const handleLISPSubmission = (e) => {
+    e.preventDefault();
+    setErrorChecker(false);
+    setSubmitChecker(false);
+    if(lispinput === ''){
+      setErrorChecker(true);
+      console.log("ERROR Please add string");
+    }
+    else{
       setErrorChecker(false);
-      setSubmitChecker(false);
-      console.log(lispinput);
-      if(lispinput === ''){
+      if(!LISPChecker(lispinput)){
         setErrorChecker(true);
-        console.log("ERROR Please add string");
+        console.log("ERROR: parenthesis not closed");
       }
       else{
-        setErrorChecker(false);
-        console.log("Input has value");
-        if(LISPChecker(lispinput) === true){
-          setSubmitChecker(true);
-          console.log("Success: parenthesis closed");
-        }
-        else{
-          setErrorChecker(true);
-          console.log("ERROR: parenthesis not closed");
-        }
+        setSubmitChecker(true);
+        console.log("Success: parenthesis closed");
       }
-    };
+    }
+  };
 
   //Show popup modal Success
   const successChecker = () => {
@@ -150,17 +150,17 @@ function App() {
         <Alert severity="success">LISP Paranthesis Checker success!</Alert>
       </div>
     );
-    };
+  };
   
-    //Show popup modal error if error
-    const errorChecker = () => {
-      return (
-        <div style={{display: errorcheck ? '' : 'none'}}>
-          <Alert severity="warning">Warning: Parenthesis Not Closed</Alert>
-        </div>
-        
-      );
-    };
+  //Show popup modal error if error
+  const errorChecker = () => {
+    return (
+      <div style={{display: errorcheck ? '' : 'none'}}>
+        <Alert severity="warning">Warning: Parenthesis Not Closed</Alert>
+      </div>
+      
+    );
+  };
 
   return (
     <div className="App">
@@ -244,14 +244,14 @@ function App() {
         </div>
 
         <Box
-        component="form"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '20px'
-        }}
-        noValidate
-        autoComplete="off">
+          component="form"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '20px'
+          }}
+          noValidate
+          autoComplete="off">
           <TextField
             id="outlined-basic"
             label="Parenthesis Checker"
