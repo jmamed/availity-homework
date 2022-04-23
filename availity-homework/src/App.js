@@ -71,8 +71,8 @@ function App() {
     }
   };
 
-  //Show popup modal Success
-  const successPopup = () => {
+  //Show Alert Success
+  const successAlert = () => {
     return (
       <div
         style={{
@@ -83,8 +83,8 @@ function App() {
     );
   };
 
-  //Show popup modal error if error
-  const errorPopup = () => {
+  //Show Alert Error
+  const errorAlert = () => {
     return (
       <div style={{display: error ? '' : 'none'}}>
         <Alert severity="error">Please enter all mandatory fields - Try Again!</Alert>
@@ -140,7 +140,7 @@ function App() {
     }
   };
 
-  //Show popup modal Success
+  //Show LISP Success Alert
   const successChecker = () => {
     return (
       <div
@@ -152,7 +152,7 @@ function App() {
     );
   };
   
-  //Show popup modal error if error
+  //Show LISP Error Alert
   const errorChecker = () => {
     return (
       <div style={{display: errorcheck ? '' : 'none'}}>
@@ -167,8 +167,8 @@ function App() {
       <Container maxWidth="sm">
         <h2>Availity Homework Form</h2>
         <div>
-          {errorPopup()}
-          {successPopup()}
+          {errorAlert()}
+          {successAlert()}
         </div>
         <Box
           component="form"
