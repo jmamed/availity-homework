@@ -54,7 +54,7 @@ function App() {
   //LISP
   const handleLISPChecker = (e) => {
     setLispChecker(e.target.value);
-    setSubmitted(false);
+    setSubmitChecker(false);
   };
 
   const handleFormSubmission = (e) => {
